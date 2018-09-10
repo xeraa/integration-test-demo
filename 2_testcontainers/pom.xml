@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <elasticsearch.version>6.3.0</elasticsearch.version>
+        <elasticsearch.version>6.4.0</elasticsearch.version>
 
         <!-- Build properties -->
         <java.compiler.version>1.8</java.compiler.version>
