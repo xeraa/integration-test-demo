@@ -11,6 +11,7 @@ import org.elasticsearch.action.main.MainResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.support.WriteRequest;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -63,7 +64,7 @@ public class TestcontainerTest {
         client = new RestHighLevelClient(builder);
 
         // Make sure the cluster is running
-        MainResponse info = client.info();
+        MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());
         logger.info("Client is running against an Elasticsearch cluster " + info.getVersion().toString());
     }
 
@@ -81,11 +82,12 @@ public class TestcontainerTest {
 
     @Test
     public void test() throws IOException {
+        RequestOptions requestOptions = RequestOptions.DEFAULT.toBuilder().build();
 
         // Remove any existing index
         try {
             logger.info("-> Removing index " + INDEX);
-            client.indices().delete(new DeleteIndexRequest(INDEX));
+            client.indices().delete(new DeleteIndexRequest(INDEX), requestOptions);
         } catch (ElasticsearchStatusException e) {
             assertThat(e.status().getStatus(), is(404));
         }
@@ -97,7 +99,7 @@ public class TestcontainerTest {
                 .put("index.number_of_shards", 1)
                 .put("index.number_of_replicas", 0)
         );
-        client.indices().create(createIndexRequest);
+        client.indices().create(createIndexRequest, requestOptions);
 
         // Index some documents
         logger.info("-> Indexing one document in " + INDEX);
@@ -106,11 +108,11 @@ public class TestcontainerTest {
                         .startObject()
                         .field("name", "Philipp")
                         .endObject()
-        ).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE));
+        ).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE), requestOptions);
         logger.info("-> Document indexed with _id " + indexResponse.getId());
 
         // We search
-        SearchResponse searchResponse = client.search(new SearchRequest(INDEX));
+        SearchResponse searchResponse = client.search(new SearchRequest(INDEX), requestOptions);
         logger.info(searchResponse.toString());
         assertThat(searchResponse.getHits().totalHits, is(1L));
     }
