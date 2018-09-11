@@ -101,17 +101,17 @@ public class TestcontainerTest {
 
         // Index some documents
         logger.info("-> Indexing one document in " + INDEX);
-        IndexResponse ir = client.index(new IndexRequest(INDEX, "_doc").source(
+        IndexResponse indexResponse = client.index(new IndexRequest(INDEX, "_doc").source(
                 jsonBuilder()
                         .startObject()
                         .field("name", "Philipp")
                         .endObject()
         ).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE));
-        logger.info("-> Document indexed with _id " + ir.getId());
+        logger.info("-> Document indexed with _id " + indexResponse.getId());
 
         // We search
-        SearchResponse sr = client.search(new SearchRequest(INDEX));
-        logger.info(sr.toString());
-        assertThat(sr.getHits().totalHits, is(1L));
+        SearchResponse searchResponse = client.search(new SearchRequest(INDEX));
+        logger.info(searchResponse.toString());
+        assertThat(searchResponse.getHits().totalHits, is(1L));
     }
 }
