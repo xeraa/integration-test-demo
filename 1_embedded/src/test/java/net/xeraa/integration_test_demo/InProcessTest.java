@@ -34,7 +34,7 @@ public class InProcessTest {
 
     private static final Logger logger = Logger.getLogger(InProcessTest.class.getName());
     private static RestHighLevelClient client;
-    private static final String INDEX = "in-process";
+    private static final String INDEX = "embedded";
     private static EmbeddedElastic embeddedElastic;
 
     @BeforeClass
@@ -49,7 +49,7 @@ public class InProcessTest {
         Properties properties = new Properties();
         properties.load(InProcessTest.class.getClassLoader().getResourceAsStream("elasticsearch.version.properties"));
         String elasticsearchVersion = properties.getProperty("version");
-        logger.info("No node running — we need to start a Docker instance with version " + elasticsearchVersion);
+        logger.info("No node running — we need to start an embedded instance with version " + elasticsearchVersion);
         embeddedElastic = EmbeddedElastic.builder()
                 .withElasticVersion(elasticsearchVersion)
                 .withSetting(PopularProperties.HTTP_PORT, testClusterPort)
@@ -74,6 +74,7 @@ public class InProcessTest {
         if (client != null) {
             logger.info("Closing Elasticsearch client");
             client.close();
+            logger.info("Shutting down embedded Elasticsearch");
             embeddedElastic.stop();
         }
     }
