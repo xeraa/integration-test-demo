@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -55,7 +55,7 @@ public class InProcessTest {
                 .withSetting(PopularProperties.HTTP_PORT, testClusterPort)
                 .withSetting(PopularProperties.CLUSTER_NAME, "elasticsearch")
                 .withEsJavaOpts("-Xms512m -Xmx512m")
-                .withStartTimeout(1, MINUTES)
+                .withStartTimeout(60, SECONDS)
                 .build();
         embeddedElastic.start();
         logger.info("Embedded Elasticsearch instance started");
