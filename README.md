@@ -1,11 +1,12 @@
-# Demo project for Integration Testing with Elasticsearch
+# Demo Project for Integration Testing with Elasticsearch
 
 Heavily inspired by [https://github.com/dadoonet/elasticsearch-integration-tests](https://github.com/dadoonet/elasticsearch-integration-tests).
 
 
+
 ## Actual Datastore
 
-So the first step is to install Elasticsearch locally.
+The first step is to install Elasticsearch locally.
 If you have Docker installed (which is expected for the next steps anyway), you can run Elasticsearch from this test's folder with:
 
 ```sh
@@ -28,31 +29,46 @@ docker-compose down -v
 
 
 
-## Build Tool
+## Embedded
 
-Now we can start the Docker container from Maven so you can simply run:
+Here we have switched to the embedded version that downloads the right binary in the background and runs it automatically.
+
+Try to run tests from your IDE, but Maven works as well:
 
 ```sh
-mvn docker:start test docker:stop
-```
-
-But if you run the tests from your IDE, they will still fail.
-
-
-
-## Testcontainer
-
-Finally, we add https://github.com/dadoonet/testcontainers-java-module-elasticsearch[testcontainers-java-module-elasticsearch] to
-launch our tests from the IDE. This project helps you to launch an Elasticsearch Docker image from Java.
-
-Try to run tests from your IDE now, but Maven works as well:
-
-```
 mvn test
 ```
 
 
 
-## Todo
+## Build Tool
 
-* Parent POM?
+Now we can start the Docker container from Maven so you can run:
+
+```sh
+mvn docker:start test docker:stop
+```
+
+But if you run the tests from your IDE they will still fail.
+
+
+
+## Testcontainer
+
+Finally, we add Testcontainers to launch our tests from the IDE.
+
+Try to run tests from your IDE, but Maven works as well:
+
+```sh
+mvn test
+```
+
+
+
+# Upgrade
+
+Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
+
+
+# Todo
+
