@@ -30,11 +30,11 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class TestcontainerTest {
+public class TestcontainersCustomTest {
 
-    private static final Logger logger = Logger.getLogger(TestcontainerTest.class.getName());
+    private static final Logger logger = Logger.getLogger(TestcontainersCustomTest.class.getName());
     private static RestHighLevelClient client;
-    private static final String INDEX = "testcontainer";
+    private static final String INDEX = "testcontainers-custom";
     private static ElasticsearchContainer container;
 
     @BeforeClass
@@ -46,7 +46,7 @@ public class TestcontainerTest {
         logger.info("Starting a client on " + testClusterScheme + "://" + testClusterHost + ":" + testClusterPort);
 
         Properties properties = new Properties();
-        properties.load(TestcontainerTest.class.getClassLoader().getResourceAsStream("elasticsearch.version.properties"));
+        properties.load(TestcontainersCustomTest.class.getClassLoader().getResourceAsStream("elasticsearch.version.properties"));
         String elasticsearchVersion = properties.getProperty("version");
         logger.info("No node running — we need to start a Docker instance with version " + elasticsearchVersion);
         container = new ElasticsearchContainer().withVersion(elasticsearchVersion);
