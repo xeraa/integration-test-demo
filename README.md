@@ -13,13 +13,11 @@ If you have Docker installed (which is expected for the next steps anyway), you 
 docker-compose up
 ```
 
-Then you can run:
+Then you can run the actual test from your IDE or the shell with:
 
 ```sh
 mvn test
 ```
-
-Or you can run the test from your IDE.
 
 Once done, remove your container with:
 
@@ -31,9 +29,8 @@ docker-compose down -v
 
 ## Embedded
 
-Here we have switched to the embedded version that downloads the right binary in the background and runs it automatically.
-
-Try to run tests from your IDE, but Maven works as well:
+Here we have switched to the embedded version that downloads the right binary in the background and runs it for you.
+Try to run tests from your IDE, but your shell works as well:
 
 ```sh
 mvn test
@@ -49,15 +46,14 @@ Now we can start the Docker container from Maven so you can run:
 mvn docker:start test docker:stop
 ```
 
-But if you run the tests from your IDE they will still fail.
+But if you run the tests from your IDE they will fail.
 
 
 
-## Testcontainer
+## Testcontainers General
 
-Finally, we add Testcontainers to launch our tests from the IDE.
-
-Try to run tests from your IDE, but Maven works as well:
+Finally, we add Testcontainers — first through a generic Docker Compose setup.
+Try to run tests from your IDE, but the shell works as well:
 
 ```sh
 mvn test
@@ -65,10 +61,32 @@ mvn test
 
 
 
+## Testcontainers Custom
+
+This approach uses a custom wrapper in Java for Elasticsearch in Testcontainers.
+Try to run tests from your IDE, but the shell works as well:
+
+```sh
+mvn test
+```
+
+
+
+## Docker in Docker
+
+Finally, we can demo how to run the previous example from within Docker.
+This will only work on the shell again:
+
+```sh
+docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker.sock maven:3 mvn --projects :4_testcontainers-custom test
+```
+
+
 # Upgrade
 
-Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
+Change the version in *pom.xml*, *0_actual-datastore/docker-compose.yml*, and *3_testcontainers-general/src/test/resources/docker-compose.yml*.
 
 
 # Todo
 
+* Randomize port & JUnit5 — depends on Testcontainer support
