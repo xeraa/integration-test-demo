@@ -30,7 +30,7 @@ docker-compose down -v
 ## Embedded
 
 Here we have switched to the embedded version that downloads the right binary in the background and runs it for you.
-Try to run tests from your IDE, but your shell works as well:
+Try to run tests from your IDE, but your shell works as well within this folder:
 
 ```sh
 mvn test
@@ -40,7 +40,7 @@ mvn test
 
 ## Build Tool
 
-Now we can start the Docker container from Maven so you can run:
+Now we can start the Docker container from Maven so you can run the following from this folder:
 
 ```sh
 mvn docker:start test docker:stop
@@ -53,7 +53,7 @@ But if you run the tests from your IDE they will fail.
 ## Testcontainers General
 
 Finally, we add Testcontainers — first through a generic Docker Compose setup.
-Try to run tests from your IDE, but the shell works as well:
+Try to run tests from your IDE, but the shell works as well from this folder:
 
 ```sh
 mvn test
@@ -64,7 +64,7 @@ mvn test
 ## Testcontainers Custom
 
 This approach uses a custom wrapper in Java for Elasticsearch in Testcontainers.
-Try to run tests from your IDE, but the shell works as well:
+Try to run tests from your IDE, but the shell works as well from this folder:
 
 ```sh
 mvn test
@@ -75,10 +75,10 @@ mvn test
 ## Docker in Docker
 
 Finally, we can demo how to run the previous example from within Docker.
-This will only work on the shell again:
+This will only work on the shell again and needs to be run in the base folder:
 
 ```sh
-docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker.sock maven:3 mvn --projects :4_testcontainers-custom test
+docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker.sock maven:3 mvn --projects parent,4_testcontainers-custom test
 ```
 
 
