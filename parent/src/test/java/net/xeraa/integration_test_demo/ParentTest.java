@@ -1,6 +1,8 @@
 package net.xeraa.integration_test_demo;
 
 import org.apache.http.HttpHost;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
@@ -17,7 +19,6 @@ import org.elasticsearch.common.settings.Settings;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.hamcrest.CoreMatchers.is;
@@ -25,7 +26,7 @@ import static org.junit.Assert.assertThat;
 
 public abstract class ParentTest {
 
-    private static final Logger logger = Logger.getLogger(ParentTest.class.getName());
+    private static final Logger logger = LogManager.getLogger(ParentTest.class.getName());
     protected static RestHighLevelClient client;
     private static final String ELASTICSEARCH_INDEX = "test-index";
 
@@ -39,14 +40,14 @@ public abstract class ParentTest {
 
         // Remove any existing index
         try {
-            logger.info("-> Removing index " + ELASTICSEARCH_INDEX);
+            logger.info("-> Removing index {}", ELASTICSEARCH_INDEX);
             client.indices().delete(new DeleteIndexRequest(ELASTICSEARCH_INDEX), requestOptions);
         } catch (ElasticsearchStatusException e) {
             assertThat(e.status().getStatus(), is(404));
         }
 
         // Create a new index
-        logger.info("-> Creating index " + ELASTICSEARCH_INDEX);
+        logger.info("-> Creating index {}", ELASTICSEARCH_INDEX);
         CreateIndexRequest createIndexRequest = new CreateIndexRequest(ELASTICSEARCH_INDEX);
         createIndexRequest.settings(Settings.builder()
                 .put("index.number_of_shards", 1)
@@ -54,19 +55,20 @@ public abstract class ParentTest {
         );
         client.indices().create(createIndexRequest, requestOptions);
 
-        // Index some documents
-        logger.info("-> Indexing one document in " + ELASTICSEARCH_INDEX);
+        // Index a document
+        logger.info("-> Indexing one document in {}", ELASTICSEARCH_INDEX);
         IndexResponse indexResponse = client.index(new IndexRequest(ELASTICSEARCH_INDEX, "_doc").source(
                 jsonBuilder()
                         .startObject()
                         .field("name", "Philipp")
                         .endObject()
         ).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE), requestOptions);
-        logger.info("-> Document indexed with _id " + indexResponse.getId());
+        logger.info("-> Document indexed with _id {}", indexResponse.getId());
 
-        // Search
+        // Check if the document is really there
         SearchResponse searchResponse = client.search(new SearchRequest(ELASTICSEARCH_INDEX), requestOptions);
         logger.info(searchResponse.toString());
         assertThat(searchResponse.getHits().totalHits, is(1L));
+        assertThat(searchResponse.getHits().iterator().next().getId(), is(indexResponse.getId()));
     }
 }
