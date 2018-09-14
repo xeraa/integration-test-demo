@@ -8,14 +8,4 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>0_actual-datastore</artifactId>
-
-    <dependencies>
-        <dependency>
-            <groupId>net.xeraa.integration-test-demo</groupId>
-            <artifactId>parent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
