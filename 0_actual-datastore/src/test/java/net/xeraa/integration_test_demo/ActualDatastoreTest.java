@@ -20,13 +20,15 @@ public class ActualDatastoreTest extends ParentTest {
 
     @BeforeClass
     public static void startElasticsearchRestClient(){
-        final int testClusterPort = Integer.parseInt(System.getProperty("tests.cluster.port", "9200"));
-        final String testClusterHost = System.getProperty("tests.cluster.host", "localhost");
-        final String testClusterScheme = System.getProperty("tests.cluster.scheme", "http");
+        final int TEST_CLUSTER_PORT =
+                Integer.parseInt(System.getProperty("tests.elasticsearch.port", "9200"));
+        final String TEST_CLUSTER_HOST = System.getProperty("tests.elasticsearch.host", "localhost");
+        final String TEST_CLUSTER_SCHEME = System.getProperty("tests.elasticsearch.scheme", "http");
 
         // Start a client
-        logger.info("Starting a client on {}://{}:{}",testClusterScheme, testClusterHost, testClusterPort);
-        RestClientBuilder builder = getClientBuilder(new HttpHost(testClusterHost, testClusterPort, testClusterScheme));
+        logger.info("Starting a client on {}://{}:{}",TEST_CLUSTER_SCHEME, TEST_CLUSTER_HOST, TEST_CLUSTER_PORT);
+        RestClientBuilder builder =
+                getClientBuilder(new HttpHost(TEST_CLUSTER_HOST, TEST_CLUSTER_PORT, TEST_CLUSTER_SCHEME));
         try {
             client = new RestHighLevelClient(builder);
             MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());

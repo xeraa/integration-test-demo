@@ -26,13 +26,14 @@ public class MavenTest  extends ParentTest {
         Properties properties = new Properties();
         properties.load(MavenTest.class.getClassLoader()
                 .getResourceAsStream("elasticsearch.configuration.properties"));
-        final int testClusterPort = Integer.parseInt(properties.getProperty("port"));
-        final String testClusterHost = properties.getProperty("host");
-        final String testClusterScheme = properties.getProperty("scheme");
+        final int TEST_CLUSTER_PORT = Integer.parseInt(properties.getProperty("port"));
+        final String TEST_CLUSTER_HOST = properties.getProperty("host");
+        final String TEST_CLUSTER_SCHEME = properties.getProperty("scheme");
 
         // Start a client
-        logger.info("Starting a client on {}://{}:{}",testClusterScheme, testClusterHost, testClusterPort);
-        RestClientBuilder builder = getClientBuilder(new HttpHost(testClusterHost, testClusterPort, testClusterScheme));
+        logger.info("Starting a client on {}://{}:{}",TEST_CLUSTER_SCHEME, TEST_CLUSTER_HOST, TEST_CLUSTER_PORT);
+        RestClientBuilder builder =
+                getClientBuilder(new HttpHost(TEST_CLUSTER_HOST, TEST_CLUSTER_PORT, TEST_CLUSTER_SCHEME));
         try {
             client = new RestHighLevelClient(builder);
             MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());

@@ -40,13 +40,14 @@ public class TestcontainersCustomTest extends ParentTest {
                         .withStartupTimeout(Duration.ofSeconds(60)));
         container.start();
         logger.info("Docker instance started");
-        final String testClusterHost = container.getHost().getHostName();
-        final int testClusterPort = container.getFirstMappedPort();
-        final String testClusterScheme = System.getProperty("tests.cluster.scheme", "http");
+        final String TEST_CLUSTER_HOST = container.getHost().getHostName();
+        final int TEST_CLUSTER_PORT = container.getFirstMappedPort();
+        final String TEST_CLUSTER_SCHEME = System.getProperty("tests.cluster.scheme", "http");
 
         // Build the Elasticsearch High Level Client based on the parameters
-        logger.info("Starting a client on {}://{}:{}",testClusterScheme, testClusterHost, testClusterPort);
-        RestClientBuilder builder = RestClient.builder(new HttpHost(testClusterHost, testClusterPort, testClusterScheme));
+        logger.info("Starting a client on {}://{}:{}",TEST_CLUSTER_SCHEME, TEST_CLUSTER_HOST, TEST_CLUSTER_PORT);
+        RestClientBuilder builder =
+                RestClient.builder(new HttpHost(TEST_CLUSTER_HOST, TEST_CLUSTER_PORT, TEST_CLUSTER_SCHEME));
         client = new RestHighLevelClient(builder);
         MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());
         logger.info("Client is running against an Elasticsearch cluster " + info.getVersion().toString());

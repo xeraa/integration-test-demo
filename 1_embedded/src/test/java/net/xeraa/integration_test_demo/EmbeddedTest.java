@@ -24,9 +24,9 @@ public class EmbeddedTest extends ParentTest {
 
     @BeforeClass
     public static void startElasticsearchRestClient() throws IOException, InterruptedException {
-        final int testClusterPort = 9200;
-        final String testClusterHost = "localhost";
-        final String testClusterScheme = "http";
+        final int TEST_CLUSTER_PORT = 9200;
+        final String TEST_CLUSTER_HOST = "localhost";
+        final String TEST_CLUSTER_SCHEME = "http";
 
         // Get the Elasticsearch version from the POM
         Properties properties = new Properties();
@@ -38,7 +38,7 @@ public class EmbeddedTest extends ParentTest {
         logger.info("Start an embedded instance with version {}", elasticsearchVersion);
         embeddedElastic = EmbeddedElastic.builder()
                 .withElasticVersion(elasticsearchVersion)
-                .withSetting(PopularProperties.HTTP_PORT, testClusterPort)
+                .withSetting(PopularProperties.HTTP_PORT, TEST_CLUSTER_PORT)
                 .withSetting(PopularProperties.CLUSTER_NAME, "elasticsearch")
                 .withEsJavaOpts("-Xms512m -Xmx512m")
                 .withStartTimeout(60, SECONDS)
@@ -47,8 +47,9 @@ public class EmbeddedTest extends ParentTest {
         logger.info("Embedded Elasticsearch instance started");
 
         // Start a client
-        logger.info("Starting a client on {}://{}:{}",testClusterScheme, testClusterHost, testClusterPort);
-        RestClientBuilder builder = getClientBuilder(new HttpHost(testClusterHost, testClusterPort, testClusterScheme));
+        logger.info("Starting a client on {}://{}:{}",TEST_CLUSTER_SCHEME, TEST_CLUSTER_HOST, TEST_CLUSTER_PORT);
+        RestClientBuilder builder =
+                getClientBuilder(new HttpHost(TEST_CLUSTER_HOST, TEST_CLUSTER_PORT, TEST_CLUSTER_SCHEME));
         client = new RestHighLevelClient(builder);
         MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());
         logger.info("Client is running against an Elasticsearch cluster {}", info.getVersion().toString());
