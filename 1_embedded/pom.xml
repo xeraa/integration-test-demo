@@ -11,6 +11,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>net.xeraa.integration-test-demo</groupId>
+            <artifactId>parent</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <version>${slf4j.version}</version>

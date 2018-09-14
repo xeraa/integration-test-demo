@@ -15,6 +15,15 @@
         <elasticsearch.scheme>http</elasticsearch.scheme>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>net.xeraa.integration-test-demo</groupId>
+            <artifactId>parent</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
