@@ -9,6 +9,12 @@
     </parent>
     <artifactId>2_build-tool</artifactId>
 
+    <properties>
+        <elasticsearch.port>9200</elasticsearch.port>
+        <elasticsearch.host>localhost</elasticsearch.host>
+        <elasticsearch.scheme>http</elasticsearch.scheme>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -22,11 +28,11 @@
                             <name>docker.elastic.co/elasticsearch/elasticsearch:${elasticsearch.version}</name>
                             <run>
                                 <ports>
-                                    <port>9200:9200</port>
+                                    <port>${elasticsearch.port}:${elasticsearch.port}</port>
                                 </ports>
                                 <wait>
                                     <http>
-                                        <url>http://localhost:9200/</url>
+                                        <url>${elasticsearch.scheme}://${elasticsearch.host}:${elasticsearch.port}/</url>
                                         <status>200..299</status>
                                     </http>
                                     <time>60000</time>
@@ -66,6 +72,14 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <!-- Enable filtering so we can propagate the Elasticsearch configuration to the app through a property -->
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
     </build>
 
 </project>
