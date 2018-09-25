@@ -31,6 +31,9 @@ Once done, stop and remove your container with:
 docker-compose down -v
 ```
 
+Note that you can override the Elasticsearch configuration with the environment variables `tests.elasticsearch.host`,
+`tests.elasticsearch.port`, and `tests.elasticsearch.scheme`.
+
 
 
 ## Embedded
