@@ -30,7 +30,7 @@ public class TestcontainersGeneralTest extends ParentTest {
         // Start the Elasticsearch process
         logger.info("Start Elasticsearch with Docker Compose");
         container = new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"))
-                .withExposedService("elasticsearch_1", testClusterPort,
+                .withExposedService("elasticsearch_1", TEST_CLUSTER_PORT,
                         Wait.forHttp("/").forStatusCode(200).withStartupTimeout(Duration.ofSeconds(60)));
         container.start();
         logger.info("Docker Compose instance started");
