@@ -37,6 +37,7 @@ public class TestcontainersCustomTest extends ParentTest {
                 + elasticsearchVersion);
         container.setWaitStrategy(
                 Wait.forHttp("/")
+                        .forPort(9200)
                         .forStatusCode(200)
                         .withStartupTimeout(Duration.ofSeconds(60)));
         container.start();
