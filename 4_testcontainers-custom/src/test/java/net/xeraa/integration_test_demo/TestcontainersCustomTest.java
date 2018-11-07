@@ -1,6 +1,5 @@
 package net.xeraa.integration_test_demo;
 
-import fr.pilato.elasticsearch.containers.ElasticsearchContainer;
 import org.apache.http.HttpHost;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +10,8 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.testcontainers.containers.wait.HttpWaitStrategy;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -33,9 +33,10 @@ public class TestcontainersCustomTest extends ParentTest {
 
         // Start the Elasticsearch process
         logger.info("Start an Elasticsearch Testcontainer with version {}", elasticsearchVersion);
-        container = new ElasticsearchContainer().withVersion(elasticsearchVersion);
+        container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
+                + elasticsearchVersion);
         container.setWaitStrategy(
-                new HttpWaitStrategy()
+                Wait.forHttp("/")
                         .forStatusCode(200)
                         .withStartupTimeout(Duration.ofSeconds(60)));
         container.start();
