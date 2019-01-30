@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
+import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -19,6 +21,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.hamcrest.CoreMatchers.is;
@@ -64,6 +67,11 @@ public abstract class ParentTest {
                         .endObject()
         ).setRefreshPolicy(WriteRequest.RefreshPolicy.IMMEDIATE), requestOptions);
         logger.info("-> Document indexed with _id {}", indexResponse.getId());
+
+        // Check if the index exists
+        GetIndexRequest indexRequest = new GetIndexRequest().indices("*");
+        GetIndexResponse fetchedIndices = client.indices().get(indexRequest, RequestOptions.DEFAULT);
+        assertThat(Arrays.toString(fetchedIndices.getIndices()), is("[test-index]"));
 
         // Check if the document is really there
         SearchResponse searchResponse = client.search(new SearchRequest(ELASTICSEARCH_INDEX), requestOptions);
