@@ -10,11 +10,9 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.Properties;
 
 public class TestcontainersCustomTest extends ParentTest {
@@ -35,21 +33,13 @@ public class TestcontainersCustomTest extends ParentTest {
         logger.info("Start an Elasticsearch Testcontainer with version {}", elasticsearchVersion);
         container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
                 + elasticsearchVersion);
-        container.setWaitStrategy(
-                Wait.forHttp("/")
-                        .forPort(9200)
-                        .forStatusCode(200)
-                        .withStartupTimeout(Duration.ofSeconds(60)));
         container.start();
         logger.info("Docker instance started");
-        final String TEST_CLUSTER_HOST = container.getHost().getHostName();
-        final int TEST_CLUSTER_PORT = container.getFirstMappedPort();
-        final String TEST_CLUSTER_SCHEME = System.getProperty("tests.cluster.scheme", "http");
+        final String TEST_CLUSTER_URL = container.getHttpHostAddress();
 
         // Build the Elasticsearch High Level Client based on the parameters
-        logger.info("Starting a client on {}://{}:{}",TEST_CLUSTER_SCHEME, TEST_CLUSTER_HOST, TEST_CLUSTER_PORT);
-        RestClientBuilder builder =
-                RestClient.builder(new HttpHost(TEST_CLUSTER_HOST, TEST_CLUSTER_PORT, TEST_CLUSTER_SCHEME));
+        logger.info("Starting a client on {}", TEST_CLUSTER_URL);
+        RestClientBuilder builder = RestClient.builder(HttpHost.create(TEST_CLUSTER_URL));
         client = new RestHighLevelClient(builder);
         MainResponse info = client.info(RequestOptions.DEFAULT.toBuilder().build());
         logger.info("Client is running against an Elasticsearch cluster " + info.getVersion().toString());
