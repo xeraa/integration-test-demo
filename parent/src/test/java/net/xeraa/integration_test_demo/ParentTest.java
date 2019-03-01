@@ -26,6 +26,7 @@ import java.util.Arrays;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 public abstract class ParentTest {
 
@@ -45,6 +46,7 @@ public abstract class ParentTest {
         try {
             logger.info("-> Removing index {}", ELASTICSEARCH_INDEX);
             client.indices().delete(new DeleteIndexRequest(ELASTICSEARCH_INDEX), requestOptions);
+            fail("There should be no index " + ELASTICSEARCH_INDEX + " yet");
         } catch (ElasticsearchStatusException e) {
             assertThat(e.status().getStatus(), is(404));
         }
