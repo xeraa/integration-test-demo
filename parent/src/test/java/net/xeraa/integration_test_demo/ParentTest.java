@@ -73,7 +73,7 @@ public abstract class ParentTest {
         // Check if the index exists
         GetIndexRequest indexRequest = new GetIndexRequest("*");
         GetIndexResponse fetchedIndices = client.indices().get(indexRequest, RequestOptions.DEFAULT);
-        assertThat(Arrays.toString(fetchedIndices.getIndices()), is("[test-index]"));
+        assertThat(Arrays.toString(fetchedIndices.getIndices()), is("[" + ELASTICSEARCH_INDEX + "]"));
 
         // Check if the document is really there
         SearchResponse searchResponse = client.search(new SearchRequest(ELASTICSEARCH_INDEX), requestOptions);
