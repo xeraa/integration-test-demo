@@ -29,4 +29,14 @@
             <version>${testcontainers.version}</version>
         </dependency>
     </dependencies>
+
+    <!-- Enable filtering so we can propagate the Elasticsearch version to the app through a property -->
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+    </build>
 </project>

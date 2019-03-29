@@ -15,6 +15,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 public class TestcontainersGeneralTest extends ParentTest {
 
@@ -27,9 +28,16 @@ public class TestcontainersGeneralTest extends ParentTest {
         final String TEST_CLUSTER_HOST = "localhost";
         final String TEST_CLUSTER_SCHEME = "http";
 
+        // Get the Elasticsearch version from the POM
+        Properties properties = new Properties();
+        properties.load(TestcontainersGeneralTest.class.getClassLoader()
+                .getResourceAsStream("elasticsearch.version.properties"));
+        String elasticsearchVersion = properties.getProperty("version");
+
         // Start the Elasticsearch process
         logger.info("Start Elasticsearch with Docker Compose");
         container = new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"))
+                .withEnv("ELASTIC_VERSION", elasticsearchVersion)
                 .withExposedService("elasticsearch_1", TEST_CLUSTER_PORT,
                         Wait.forHttp("/").forStatusCode(200).withStartupTimeout(Duration.ofSeconds(60)));
         container.start();

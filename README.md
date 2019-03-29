@@ -106,4 +106,3 @@ Change the version in *pom.xml*, *0_actual-datastore/docker-compose.yml*, and *3
 # Todo
 
 * https://vanwilgenburg.wordpress.com/2019/01/22/embedded-elasticsearch-junit5-spring-boot/
-* Use a filter for the generic Testcontainers setup; Docker env variable doesn't work because the context is wrong
