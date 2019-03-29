@@ -42,7 +42,7 @@
                                 <wait>
                                     <http>
                                         <url>${elasticsearch.scheme}://${elasticsearch.host}:${elasticsearch.port}/</url>
-                                        <status>200..299</status>
+                                        <status>200</status>
                                     </http>
                                     <time>60000</time>
                                 </wait>
@@ -53,6 +53,7 @@
                 <executions>
                     <execution>
                         <id>start-elasticsearch</id>
+                        <!-- If it should be run through "mvn test" with the phases "test-compile" and "test" -->
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>build</goal>
@@ -67,18 +68,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- Use the Failsafe plugin to ensure a clean start and stop of the Docker container -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-                </configuration>
             </plugin>
         </plugins>
 
