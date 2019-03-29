@@ -34,6 +34,7 @@ public class TestcontainersCustomTest extends ParentTest {
         container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
                 + elasticsearchVersion);
         container.addEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m");
+        container.addEnv("bootstrap.memory_lock", "true");
         container.start();
         logger.info("Docker instance started");
         final String TEST_CLUSTER_URL = container.getHttpHostAddress();
