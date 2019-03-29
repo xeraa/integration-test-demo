@@ -13,12 +13,17 @@ import org.junit.BeforeClass;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Properties;
+
+import static java.util.Collections.singletonMap;
 
 public class TestcontainersCustomTest extends ParentTest {
 
     private static final Logger logger = LogManager.getLogger(TestcontainersCustomTest.class.getName());
     private static ElasticsearchContainer container;
+    private static final Instant startTime = Instant.now();
 
     @BeforeClass
     public static void startElasticsearchRestClient() throws IOException {
@@ -32,9 +37,10 @@ public class TestcontainersCustomTest extends ParentTest {
         // Start the Elasticsearch process
         logger.info("Start an Elasticsearch Testcontainer with version {}", elasticsearchVersion);
         container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
-                + elasticsearchVersion);
-        container.addEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m");
-        container.addEnv("bootstrap.memory_lock", "true");
+                + elasticsearchVersion)
+                .withEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m")
+                .withEnv("bootstrap.memory_lock", "true")
+                .withTmpFs(singletonMap("/usr/share/elasticsearch/data", "rw")); //No change anything with a single doc
         container.start();
         logger.info("Docker instance started");
         final String TEST_CLUSTER_URL = container.getHttpHostAddress();
@@ -57,5 +63,8 @@ public class TestcontainersCustomTest extends ParentTest {
             logger.info("Stopping Docker instance");
             container.close();
         }
+
+        // Calculate the time of the full run to see if heap size or TempFS change anything
+        logger.info("Time of the full test: " + Duration.between(startTime, Instant.now()));
     }
 }
