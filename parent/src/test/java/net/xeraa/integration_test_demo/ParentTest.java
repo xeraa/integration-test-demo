@@ -4,10 +4,10 @@ import org.apache.http.HttpHost;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ElasticsearchStatusException;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.admin.indices.get.GetIndexResponse;
+import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
@@ -71,7 +71,7 @@ public abstract class ParentTest {
         logger.info("-> Document indexed with _id {}", indexResponse.getId());
 
         // Check if the index exists
-        GetIndexRequest indexRequest = new GetIndexRequest().indices("*");
+        GetIndexRequest indexRequest = new GetIndexRequest("*");
         GetIndexResponse fetchedIndices = client.indices().get(indexRequest, RequestOptions.DEFAULT);
         assertThat(Arrays.toString(fetchedIndices.getIndices()), is("[test-index]"));
 
