@@ -80,5 +80,8 @@ public abstract class ParentTest {
         logger.info(searchResponse.toString());
         assertThat(searchResponse.getHits().totalHits, is(1L));
         assertThat(searchResponse.getHits().iterator().next().getId(), is(indexResponse.getId()));
+
+        // Clean up at the end
+        client.indices().delete(new DeleteIndexRequest(ELASTICSEARCH_INDEX), requestOptions);
     }
 }
