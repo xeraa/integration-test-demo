@@ -33,6 +33,7 @@ public class TestcontainersCustomTest extends ParentTest {
         logger.info("Start an Elasticsearch Testcontainer with version {}", elasticsearchVersion);
         container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
                 + elasticsearchVersion);
+        container.addEnv("ES_JAVA_OPTS", "-Xms512m -Xmx512m");
         container.start();
         logger.info("Docker instance started");
         final String TEST_CLUSTER_URL = container.getHttpHostAddress();
