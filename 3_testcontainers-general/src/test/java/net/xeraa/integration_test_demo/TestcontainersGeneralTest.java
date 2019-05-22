@@ -31,7 +31,7 @@ public class TestcontainersGeneralTest extends ParentTest {
         // Get the Elasticsearch version from the POM
         Properties properties = new Properties();
         properties.load(TestcontainersGeneralTest.class.getClassLoader()
-                .getResourceAsStream("elasticsearch.version.properties"));
+                .getResourceAsStream("elasticsearch.configuration.properties"));
         String elasticsearchVersion = properties.getProperty("version");
 
         // Start the Elasticsearch process
