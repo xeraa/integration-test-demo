@@ -40,6 +40,7 @@
                                     <port>${elasticsearch.port}:${elasticsearch.port}</port>
                                 </ports>
                                 <env>
+                                    <discovery.type>single-node</discovery.type>
                                     <ES_JAVA_OPTS>-Xms256m -Xmx256m</ES_JAVA_OPTS>
                                 </env>
                                 <wait>
