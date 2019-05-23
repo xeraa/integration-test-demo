@@ -78,7 +78,6 @@ public abstract class ParentTest {
         // Check if the document is really there
         SearchResponse searchResponse = client.search(new SearchRequest(ELASTICSEARCH_INDEX), requestOptions);
         logger.info(searchResponse.toString());
-        assertThat(searchResponse.getHits().totalHits, is(1L));
         assertThat(searchResponse.getHits().iterator().next().getId(), is(indexResponse.getId()));
 
         // Clean up at the end
