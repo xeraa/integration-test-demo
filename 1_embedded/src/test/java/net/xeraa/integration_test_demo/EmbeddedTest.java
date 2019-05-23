@@ -40,7 +40,7 @@ public class EmbeddedTest extends ParentTest {
                 .withElasticVersion(elasticsearchVersion)
                 .withSetting(PopularProperties.HTTP_PORT, TEST_CLUSTER_PORT)
                 .withSetting(PopularProperties.CLUSTER_NAME, "elasticsearch")
-                .withEsJavaOpts("-Xms512m -Xmx512m")
+                .withEsJavaOpts("-Xms256m -Xmx256m")
                 .withStartTimeout(60, SECONDS)
                 .build();
         embeddedElastic.start();
