@@ -47,6 +47,9 @@ mvn test
 
 Note the resource filtering, which we can use to access the Elasticsearch version from the POM file.
 
+Also this will currently fail for 7.x because the dependency has not been updated for it yet. Use 6.8 instead, but show
+the failure to explain why this is an issue.
+
 
 
 ## Build Tool
@@ -88,7 +91,7 @@ Note that the port is randomly picked here and we are simply fetching all the co
 
 
 
-## Docker in Docker
+## Docker Wormhole
 
 Finally, we can demo how to run the previous example from within Docker; running our application in the `maven:3`
 container. This will only work on the shell and needs to be run in the base folder:
@@ -100,7 +103,7 @@ docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker
 
 # Upgrade
 
-Change the version in *pom.xml*, *0_actual-datastore/docker-compose.yml*, and *3_testcontainers-general/src/test/resources/docker-compose.yml*.
+Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
 
 
 # Todo
