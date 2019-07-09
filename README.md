@@ -108,6 +108,7 @@ Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
 
 # Todo
 
+* https://github.com/alexcojocaru/elasticsearch-maven-plugin
 * Fix deprecation warnings
 * Move tests to integration tests so that the docker:start and docker:stop run automatically
 * https://vanwilgenburg.wordpress.com/2019/01/22/embedded-elasticsearch-junit5-spring-boot/
