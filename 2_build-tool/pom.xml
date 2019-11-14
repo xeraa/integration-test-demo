@@ -37,7 +37,7 @@
                             <name>docker.elastic.co/elasticsearch/elasticsearch:${elasticsearch.version}</name>
                             <run>
                                 <ports>
-                                    <port>${elasticsearch.port}:${elasticsearch.port}</port>
+                                    <port>9200:${elasticsearch.port}</port>
                                 </ports>
                                 <env>
                                     <discovery.type>single-node</discovery.type>
