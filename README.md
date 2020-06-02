@@ -97,7 +97,7 @@ Finally, we can demo how to run the previous example from within Docker; running
 container. This will only work on the shell and needs to be run in the base folder:
 
 ```sh
-docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker.sock maven:3 mvn --projects parent,4_testcontainers-custom test
+docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker.sock -v ~/.m2:/var/maven/.m2 maven:3 mvn --projects parent,4_testcontainers-custom test
 ```
 
 
@@ -109,6 +109,5 @@ Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
 # Todo
 
 * https://github.com/alexcojocaru/elasticsearch-maven-plugin
-* Fix deprecation warnings
 * Move tests to integration tests so that the docker:start and docker:stop run automatically
 * https://vanwilgenburg.wordpress.com/2019/01/22/embedded-elasticsearch-junit5-spring-boot/
