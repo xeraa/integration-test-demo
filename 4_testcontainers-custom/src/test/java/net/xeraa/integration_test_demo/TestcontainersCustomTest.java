@@ -38,6 +38,7 @@ public class TestcontainersCustomTest extends ParentTest {
         logger.info("Start an Elasticsearch Testcontainer with version {}", elasticsearchVersion);
         container = new ElasticsearchContainer("docker.elastic.co/elasticsearch/elasticsearch:"
                 + elasticsearchVersion)
+                .withStartupTimeout(Duration.ofSeconds(90))
                 .withEnv("ES_JAVA_OPTS", "-Xms256m -Xmx256m")
                 .withEnv("bootstrap.memory_lock", "true")
                 .withTmpFs(singletonMap("/usr/share/elasticsearch/data", "rw")); //No change anything with a single doc

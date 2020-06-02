@@ -39,7 +39,7 @@ public class TestcontainersGeneralTest extends ParentTest {
         container = new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"))
                 .withEnv("ELASTIC_VERSION", elasticsearchVersion)
                 .withExposedService("elasticsearch_1", TEST_CLUSTER_PORT,
-                        Wait.forHttp("/").forStatusCode(200).withStartupTimeout(Duration.ofSeconds(60)));
+                        Wait.forHttp("/").forStatusCode(200).withStartupTimeout(Duration.ofSeconds(90)));
         container.start();
         logger.info("Docker Compose instance started");
 
