@@ -41,7 +41,7 @@ public class EmbeddedTest extends ParentTest {
                 .withSetting(PopularProperties.HTTP_PORT, TEST_CLUSTER_PORT)
                 .withSetting(PopularProperties.CLUSTER_NAME, "elasticsearch")
                 .withEsJavaOpts("-Xms256m -Xmx256m")
-                .withStartTimeout(60, SECONDS)
+                .withStartTimeout(90, SECONDS)
                 .build();
         embeddedElastic.start();
         logger.info("Embedded Elasticsearch instance started");
