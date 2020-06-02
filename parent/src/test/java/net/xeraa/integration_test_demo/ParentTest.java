@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.fail;
 
 public abstract class ParentTest {
@@ -48,7 +48,7 @@ public abstract class ParentTest {
             client.indices().delete(new DeleteIndexRequest(ELASTICSEARCH_INDEX), requestOptions);
             fail("There should be no index " + ELASTICSEARCH_INDEX + " yet");
         } catch (ElasticsearchStatusException e) {
-            assertThat(e.status().getStatus(), is(404));
+            assertThat(e.status().getStatus(), equalTo(404));
         }
 
         // Create a new index
@@ -73,12 +73,12 @@ public abstract class ParentTest {
         // Check if the index exists
         GetIndexRequest indexRequest = new GetIndexRequest("*");
         GetIndexResponse fetchedIndices = client.indices().get(indexRequest, RequestOptions.DEFAULT);
-        assertThat(Arrays.toString(fetchedIndices.getIndices()), is("[" + ELASTICSEARCH_INDEX + "]"));
+        assertThat(Arrays.toString(fetchedIndices.getIndices()), equalTo("[" + ELASTICSEARCH_INDEX + "]"));
 
         // Check if the document is really there
         SearchResponse searchResponse = client.search(new SearchRequest(ELASTICSEARCH_INDEX), requestOptions);
         logger.info(searchResponse.toString());
-        assertThat(searchResponse.getHits().iterator().next().getId(), is(indexResponse.getId()));
+        assertThat(searchResponse.getHits().iterator().next().getId(), equalTo(indexResponse.getId()));
 
         // Clean up at the end
         client.indices().delete(new DeleteIndexRequest(ELASTICSEARCH_INDEX), requestOptions);
