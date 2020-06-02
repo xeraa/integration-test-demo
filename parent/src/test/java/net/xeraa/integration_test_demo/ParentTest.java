@@ -62,7 +62,7 @@ public abstract class ParentTest {
 
         // Index a document
         logger.info("-> Indexing one document in {}", ELASTICSEARCH_INDEX);
-        IndexResponse indexResponse = client.index(new IndexRequest(ELASTICSEARCH_INDEX, "_doc").source(
+        IndexResponse indexResponse = client.index(new IndexRequest(ELASTICSEARCH_INDEX).source(
                 jsonBuilder()
                         .startObject()
                         .field("name", "Philipp")
