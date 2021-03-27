@@ -1,6 +1,6 @@
 # Demo Project for Integration Testing with Elasticsearch
 
-Heavily inspired by [https://github.com/dadoonet/elasticsearch-integration-tests](https://github.com/dadoonet/elasticsearch-integration-tests).
+[Slides and video](https://xeraa.net/talks/integration-tests-with-containers/) of the talk based on this demo.
 
 Prerequisites:
 
@@ -104,6 +104,11 @@ docker run -it --rm -v $PWD:$PWD -w $PWD -v /var/run/docker.sock:/var/run/docker
 # Upgrade
 
 Change the version in *pom.xml* and *0_actual-datastore/docker-compose.yml*.
+
+
+# Credits
+
+Inspired by [https://github.com/dadoonet/elasticsearch-integration-tests](https://github.com/dadoonet/elasticsearch-integration-tests).
 
 
 # Todo
