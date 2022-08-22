@@ -9,7 +9,7 @@
 
     <properties>
         <elasticsearch.version>7.17.5</elasticsearch.version>
-        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j.version>2.0.0</slf4j.version>
         <testcontainers.version>1.17.3</testcontainers.version>
 
         <java.compiler.version>1.8</java.compiler.version>
