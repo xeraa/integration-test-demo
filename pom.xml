@@ -8,7 +8,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <elasticsearch.version>7.17.17</elasticsearch.version>
+        <elasticsearch.version>7.17.18</elasticsearch.version>
         <slf4j.version>2.0.12</slf4j.version>
         <testcontainers.version>1.19.4</testcontainers.version>
 
